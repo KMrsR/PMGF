@@ -1,0 +1,6 @@
+CREATE TABLE param ( 
+  Id SERIAL PRIMARY KEY,
+  tag varchar(10),
+  val real,
+  dtm date
+);
