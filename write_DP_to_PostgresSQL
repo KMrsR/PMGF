@@ -1,0 +1,60 @@
+void wrt_psql(string in_str)//,string tag)
+{
+//DebugN("START:",getCurrentTime());
+  dpConnect("con", in_str);//"System1:TT7008.val:_online.._value");
+  //return con();
+}
+con(string dp1, float val)
+{
+  int rc;
+  dbConnection conn;
+  dbRecordset rs;
+  string tag;
+  tag=strrtrim(strltrim(dp1,"System1:"),".val:_online.._value");
+  rc = dbOpenConnection ("DSN=PMGF20", conn);  //открыли подключение
+    //DebugN("открыли подключение" , getCurrentTime());
+    if (!rc)
+    {
+      rc = dbOpenRecordset(conn,"select * from param",rs,2);// открывает соединение с подмножеством данных
+      //DebugN("открывает соединение с подмножеством данных" , getCurrentTime());
+      if (!rc)
+      {
+      rc = dbAddNew (rs); //создание новой записи данных
+      //DebugN("создание новой записи данных" , getCurrentTime(),q, rc);
+      if (!rc)
+      {
+        rc = dbPutField (rs, 2, val);
+        //DebugN(q);
+        // записывает fld в поле 2
+        if (!rc)
+          //DebugN(1,q,rc);
+          rc = dbPutField (rs, 1, tag);
+          //DebugN(2,q,rc);
+        if (!rc)
+          rc = dbPutField (rs, 3, getCurrentTime());
+        //DebugN("Field 3: " , getCurrentTime());
+        // записывает запрашиваемое в текущий момент время в поле 1
+        if (!rc)
+          rc = dbUpdate (rs);
+          //return 1;
+        //DebugN("Обновили данные" , getCurrentTime());
+        //rc=true;
+      }
+      dbCloseRecordset (rs); //закрывает подмножество данных
+      //DebugN("закрывает подмножество данных" , getCurrentTime());
+      }
+      dbCloseConnection (conn); //закрывает соединение
+      //DebugN("закрывает соединение" , getCurrentTime());
+      //DebugN(dpValToString(string dp,anytype dp1);
+  }
+}
+
+
+
+main()
+{
+
+  wrt_psql("System1:TT7008.val:_online.._value");
+  wrt_psql("System1:TT7028.val:_online.._value");
+
+}
