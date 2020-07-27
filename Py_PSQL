@@ -1,0 +1,6 @@
+import pandas as pd
+import psycopg2
+con = psycopg2.connect(dbname='tst_HMR', user='postgres', 
+                        password='11111', host='localhost')
+df = pd.read_sql("SELECT * from tst_3", con, index_col='dtm')
+print(df.sort_values(by=['dtm'], ascending=False))#сортировка по убыванию
