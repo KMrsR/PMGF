@@ -23,3 +23,20 @@ df['column_3'] = df['column_1']+df['column_2']+50
 df.to_sql('tst_arr',conn,  schema='public',if_exists='replace')
 #print(df)
 conn.close()
+
+#************************************************************************
+
+import numpy as np
+import pandas  as pd
+from sqlalchemy import create_engine
+
+engine = create_engine(r'postgresql://postgres:11111@localhost/tst_HMR')
+
+conn = engine.connect()
+#cur = conn.cursor()  
+engine.execute('''CREATE TABLE param ( 
+			  Id SERIAL PRIMARY KEY,
+			  tag varchar(10),
+			  val real,
+			  dtm timestamp with time zone
+			);''')
