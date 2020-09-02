@@ -1,0 +1,7 @@
+CREATE TABLE mytable1 ( 
+  stolb_1 integer PRIMARY KEY,
+  stolb_2 integer,
+  stolb_3 integer,
+  stolb_4 integer
+);
+COPY mytable1 FROM 'C:/tst_csv.csv' WITH CSV HEADER DELIMITER ';';
