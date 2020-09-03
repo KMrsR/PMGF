@@ -1,0 +1,16 @@
+main()
+{
+  int rc;
+  dbConnection conn;
+  dbRecordset rs;
+
+  rc = dbOpenConnection ("DSN=PMGF20", conn);  //открыли подключение
+  //DebugN("открыли подключение" , getCurrentTime());
+  rc = dbOpenRecordset(conn,"TRUNCATE toir;COPY toir FROM 'C:/toir_3m.csv' WITH CSV HEADER DELIMITER ',';",rs,2);// открывает соединение с подмножеством данных
+  rc = dbUpdate (rs);
+  dbCloseRecordset (rs); //закрывает подмножество данных
+  //DebugN("закрывает подмножество данных" , getCurrentTime());
+  dbCloseConnection (conn); //закрывает соединение
+  //DebugN("закрывает соединение" , getCurrentTime());
+
+}
