@@ -1,0 +1,21 @@
+class huita
+{
+  public int a;
+  public void fu()
+  {
+   a ++;
+   DebugN(a);
+  }
+};
+
+main()
+{
+  huita zx,sx;
+  sx.a = 10;
+  while(true)
+  {
+    delay(2);
+    zx.fu();
+    sx.fu();
+  }
+}
