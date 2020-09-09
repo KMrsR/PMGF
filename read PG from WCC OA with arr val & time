@@ -1,0 +1,80 @@
+dyn_float val_from_db(string query, int column_num)
+  {
+    dyn_float val;
+    int rc;
+    dbConnection conn;
+    dbRecordset rs;
+    anytype fld;
+    rc = dbOpenConnection ("DSN=WinCC OA", conn);
+    DebugN(1,rc);
+    if (!rc)
+    {
+      rc = dbOpenRecordset (conn, query, rs);
+      DebugN(2,rc);
+      // Открывается подмножество данных
+      if (!rc)
+      {
+        while (!rc && !dbEOF (rs))
+        // пока не достигнут конец файла
+        {
+          rc = dbGetField (rs, column_num, fld);
+          //чтение текущего столбца
+          if (!rc)
+            //DebugN("Field 1: " , fld);
+            dynAppend(val,fld);
+          rc = dbMoveNext (rs); //к следующей записи
+        }
+        dbCloseRecordset (rs); //закрытие подмножества
+      }
+      dbCloseConnection (conn); //закрывает соединение
+    }
+    return val;
+  }
+
+dyn_time time_from_db(string query, int column_num)
+  {
+    dyn_time val;
+    int rc;
+    dbConnection conn;
+    dbRecordset rs;
+    anytype fld;
+    rc = dbOpenConnection ("DSN=WinCC OA", conn);
+    //DebugN(1,rc);
+    if (!rc)
+    {
+      rc = dbOpenRecordset (conn, query, rs);
+      //DebugN(2,rc);
+      // Открывается подмножество данных
+      if (!rc)
+      {
+        while (!rc && !dbEOF (rs))
+        // пока не достигнут конец файла
+        {
+          rc = dbGetField (rs, column_num, fld);
+          //чтение текущего столбца
+          if (!rc)
+            //DebugN("Field 1: " , fld);
+            dynAppend(val,fld);
+          rc = dbMoveNext (rs); //к следующей записи
+        }
+        dbCloseRecordset (rs); //закрытие подмножества
+      }
+      dbCloseConnection (conn); //закрывает соединение
+    }
+    return val;
+  }
+
+
+main()
+{
+//-----------------------------------------------------------------------
+dyn_float line_1, line_2;
+dyn_time ust_time;
+//-----------------------------------------------------------------------
+line_1 = val_from_db("select * from sppr ", 9);
+dpSet("er.line_1", line_1);
+line_2 = val_from_db("select * from sppr ", 10);
+dpSet("er.line_2", line_2);
+ust_time = time_from_db("select * from sppr ", 0);
+dpSet("er.dtm", ust_time);
+}
