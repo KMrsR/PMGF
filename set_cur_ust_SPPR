@@ -1,0 +1,27 @@
+main()
+{
+  dyn_time dtm;
+  dyn_float ln1, ln2;
+  int i;
+  time m;
+//--------------------------------------------------------------------------------
+  dpGet("er.dtm",dtm);
+  dpGet("er.line_1",ln1);
+  dpGet("er.line_2",ln2);
+//--------------------------------------------------------------------------------
+  while(true)
+  {
+    if ((second(getCurrentTime()) == 0) || (second(getCurrentTime()) == 30))
+    {
+      for (i = 1; i <= dynlen(dtm); i++)
+        {
+          if ((getCurrentTime() > dtm[i]) && (getCurrentTime() < dtm[i + 1]))
+          {
+            dpSet("er.cur_ust_line_1",ln1[i]);
+            dpSet("er.cur_ust_line_2",ln2[i]);
+          }
+        }
+    }
+  }
+
+}
